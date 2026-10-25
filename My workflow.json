@@ -1,0 +1,149 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        -32
+      ],
+      "id": "b1c25631-4347-4f06-8243-2ef92ce6424b",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.deepseek.com/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"deepseek-flash\",\n  \"messages\": [\n    { \"role\": \"user\", \"content\": \"Ответь одним словом: работает\" }\n  ],\n  \"stream\": false\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        144,
+        -32
+      ],
+      "id": "577f6e5f-ef56-4ff9-a1cf-3c6e31d9ef3b",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "FrrcCcmXkHmmY4lO",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        80,
+        240
+      ],
+      "id": "7d42bd1c-7552-4df3-bfd3-1a1e72c72793",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://wttr.in/Yekaterinburg?format=j1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        304,
+        240
+      ],
+      "id": "7fdb8e04-c2f7-4aff-8da4-a6f6259af0e4",
+      "name": "HTTP Request1",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://ntfy.sh/gleb-weather-8f3k2m",
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "text/plain",
+        "body": "=🌤 Погода в Екатеринбурге: {{ $json.current_condition[0].temp_C }}°C, ощущается как {{ $json.current_condition[0].FeelsLikeC }}°C, ветер {{ $json.current_condition[0].windspeedKmph }} км/ч",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        528,
+        240
+      ],
+      "id": "fed272ba-8aa5-4814-8a81-ad2829903395",
+      "name": "HTTP Request2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "timezone": "Asia/Yekaterinburg",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "49b0ca76-c118-447f-8f3b-0ab61ddd3889",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d58c1e55bb5bf436e50143c902cc5649be09e65e39c8bac405a8464e6aacf10a"
+  },
+  "nodeGroups": [],
+  "id": "ye06e1wZaKzD3h5S",
+  "tags": []
+}
