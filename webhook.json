@@ -1,0 +1,151 @@
+{
+  "name": "webhook",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "inbox",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "adb0a8b2-3e89-4147-b6a0-2ed537f86d58",
+      "name": "Webhook",
+      "webhookId": "010cc0aa-7a28-493d-8bdc-a8cc0f4f6fce"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "505d1a97-d925-426e-a579-5ef7c3e3b41c",
+              "name": "name",
+              "value": "={{ $json.query.name}}",
+              "type": "string"
+            },
+            {
+              "id": "9deaf764-1683-423f-beee-c56d1e07948d",
+              "name": "message",
+              "value": "={{$json.query.message }}",
+              "type": "string"
+            },
+            {
+              "id": "cfb55738-c86e-4742-bfe9-9001171b4005",
+              "name": "created",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "354b1c53-ce64-4f2d-8cc2-a6fbfc134026",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "oBdIkPzPK7ZSgqkt",
+          "mode": "list",
+          "cachedResultName": "Messages",
+          "cachedResultUrl": "/projects/VGTd17HlZlq5ZWV1/datatables/oBdIkPzPK7ZSgqkt"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "created",
+              "displayName": "created",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        0
+      ],
+      "id": "3aaef5f4-1c27-4007-8e5a-30add681363b",
+      "name": "Insert row"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Insert row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "c5ee133a-871c-40e5-aa1c-ce2e9b48be76",
+  "meta": {
+    "instanceId": "d58c1e55bb5bf436e50143c902cc5649be09e65e39c8bac405a8464e6aacf10a"
+  },
+  "nodeGroups": [],
+  "id": "8fJVK37Si7eF1j5K",
+  "tags": []
+}
